@@ -1,6 +1,6 @@
 /* LikeCarousel (c) 2019 Simone P.M. github.com/simonepm - Licensed MIT */
 
-class Carousel {
+export class Carousel {
   constructor(element) {
     this.board = element;
 

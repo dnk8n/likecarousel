@@ -1,21 +1,22 @@
 /* LikeCarousel (c) 2019 Simone P.M. github.com/simonepm - Licensed MIT */
 
 export class Carousel {
-  constructor(element) {
-    this.board = element;
+  constructor(board, cardClass, cardGenerator) {
+    this.board = board;
+    this.cardClass = cardClass;
+    this.cardGenerator = cardGenerator;
 
-    // add first two cards programmatically
-    this.push();
-    this.push();
-
-    // handle gestures
-    this.handle();
+    // add first two cards asynchronously, then handle gestures
+    const firstCouplePushes = async () => {
+      await this.push();
+      await this.push();
+    };
+    firstCouplePushes().then(() => this.handle());
   }
 
   handle() {
     // list all cards
-    this.cards = this.board.querySelectorAll(".card");
-
+    this.cards = this.board.querySelectorAll(`.${this.cardClass}`);
     // get top card
     this.topCard = this.cards[this.cards.length - 1];
 
@@ -173,10 +174,8 @@ export class Carousel {
         setTimeout(() => {
           // remove swiped card
           this.board.removeChild(this.topCard);
-          // add new card
-          this.push();
-          // handle gestures on new top card
-          this.handle();
+          // add new card, then handle gestures on new top card
+          this.push().then(() => this.handle());
         }, 200);
       } else {
         // reset cards position and size
@@ -189,16 +188,10 @@ export class Carousel {
     }
   }
 
-  push() {
-    let card = document.createElement("div");
-
-    card.classList.add("card");
-
-    card.style.backgroundImage =
-      "url('https://picsum.photos/320/320/?random=" +
-      Math.round(Math.random() * 1000000) +
-      "')";
-
-    this.board.insertBefore(card, this.board.firstChild);
+  async push() {
+    this.board.insertBefore(
+      this.cardGenerator.next().value,
+      this.board.firstChild
+    );
   }
 }

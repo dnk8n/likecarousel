@@ -1,6 +1,20 @@
 import "https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js";
 import { Carousel } from "./carousel.js";
 
-let board = document.querySelector("#board");
+function* cardGenerator() {
+  while (true) {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.style.backgroundImage =
+      "url('https://picsum.photos/320/320/?random=" +
+      Math.round(Math.random() * 1000000) +
+      "')";
+    yield card;
+  }
+}
 
-let carousel = new Carousel(board);
+const board = document.querySelector("#board");
+const cardClass = "card";
+const cardGeneratorObj = cardGenerator();
+
+new Carousel(board, cardClass, cardGeneratorObj);

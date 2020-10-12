@@ -1,5 +1,7 @@
 /* LikeCarousel (c) 2019 Simone P.M. github.com/simonepm - Licensed MIT */
 
+import "https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js";
+
 export class Carousel {
   constructor(board, cardClass, cardGenerator) {
     this.board = board;

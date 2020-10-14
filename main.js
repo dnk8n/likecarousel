@@ -8,9 +8,12 @@ function* cardGenerator(cardClass) {
     const random = Math.round(Math.random() * 1000000);
     const srcUrl = `https://picsum.photos/${width}/${height}?random=${random}`;
     const proxyUrl = `https://img.dnk8n.dev/api?width=${width}&height=${height}&url=${srcUrl}`;
+    const altTitle = `Random image sized at ${width}x${height}`
 
     card.classList.add(cardClass);
     card.src = proxyUrl
+    card.alt = altTitle
+    card.title = altTitle
 
     yield card;
   }
